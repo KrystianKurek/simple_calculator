@@ -11,12 +11,13 @@ MULTIPLY = 3
 DIVIDE = 4
 
 
-class Calculator:
+class Calculator(tk.Tk):
+    """Class that inherits from tk.Tk."""
     def __init__(self):
         # Create instance of a window
-        self.window = tk.Tk()
-        self.window.title("Simple calculator")
-        self.window.resizable(False, False)
+        super(Calculator, self).__init__()
+        self.title("Simple calculator")
+        self.resizable(False, False)
         self.create_widgets()
 
         # Set some helpful variables to start values
@@ -27,77 +28,59 @@ class Calculator:
 
     def create_widgets(self):
         """Create buttons and text box."""
-        self.digits_text_box = ttk.Entry(self.window, width=50)
+        self.digits_text_box = ttk.Entry(self, width=50)
         self.digits_text_box.grid(column=0, row=0, columnspan=4)
 
-        self.answer_button = ttk.Button(self.window, text="Ans", command=self.ans)
-        self.answer_button.grid(column=0, row=2)
+        answer_button = ttk.Button(self, text="Ans", command=self.ans)
+        answer_button.grid(column=0, row=2)
 
-        self.clear_button = ttk.Button(self.window, text="C", command=self.clear)
-        self.clear_button.grid(column=1, row=2)
+        clear_button = ttk.Button(self, text="C", command=self.clear)
+        clear_button.grid(column=1, row=2)
 
-        self.backspace_button = ttk.Button(self.window, text="Backspace", width=24, command=self.backspace)
-        self.backspace_button.grid(column=2, row=2, columnspan=2)
+        backspace_button = ttk.Button(self, text="Backspace", width=24, command=self.backspace)
+        backspace_button.grid(column=2, row=2, columnspan=2)
 
-        self.logarithm_button = ttk.Button(self.window, text="log", command=lambda: self.one_argument_function_count(math.log2))
-        self.logarithm_button.grid(column=0, row=3)
+        logarithm_button = ttk.Button(self, text="log", command=lambda: self.one_argument_function_count(math.log2))
+        logarithm_button.grid(column=0, row=3)
 
-        self.inverse_number_button = ttk.Button(self.window, text="1/x", command=lambda: self.one_argument_function_count(lambda x: 1/x))
-        self.inverse_number_button.grid(column=1, row=3)
+        inverse_number_button = ttk.Button(self, text="1/x", command=lambda: self.one_argument_function_count(lambda x: 1/x))
+        inverse_number_button.grid(column=1, row=3)
 
-        self.square_root_button = ttk.Button(self.window, text="√", command=lambda: self.one_argument_function_count(math.sqrt))
-        self.square_root_button.grid(column=2, row=3)
+        square_root_button = ttk.Button(self, text="√", command=lambda: self.one_argument_function_count(math.sqrt))
+        square_root_button.grid(column=2, row=3)
 
-        self.divide_button = ttk.Button(self.window, text="/", command=lambda: self.set_operation(DIVIDE))
-        self.divide_button.grid(column=3, row=3)
+        divide_button = ttk.Button(self, text="/", command=lambda: self.set_operation(DIVIDE))
+        divide_button.grid(column=3, row=3)
 
-        self.multiply_button = ttk.Button(self.window, text="x", command=lambda: self.set_operation(MULTIPLY))
-        self.multiply_button.grid(column=3, row=4)
+        multiply_button = ttk.Button(self, text="x", command=lambda: self.set_operation(MULTIPLY))
+        multiply_button.grid(column=3, row=4)
 
-        self.subtract_button = ttk.Button(self.window, text="-", command=lambda: self.set_operation(SUBTRACT))
-        self.subtract_button.grid(column=3, row=5)
+        subtract_button = ttk.Button(self, text="-", command=lambda: self.set_operation(SUBTRACT))
+        subtract_button.grid(column=3, row=5)
 
-        self.add_button = ttk.Button(self.window, text="+", command=lambda: self.set_operation(ADD))
-        self.add_button.grid(column=3, row=6)
+        add_button = ttk.Button(self, text="+", command=lambda: self.set_operation(ADD))
+        add_button.grid(column=3, row=6)
 
-        self.equals_button = ttk.Button(self.window, text="=", command=self.equals)
-        self.equals_button.grid(column=3, row=7)
+        equals_button = ttk.Button(self, text="=", command=self.equals)
+        equals_button.grid(column=3, row=7)
 
-        self.sign_button = ttk.Button(self.window, text="+/-", command=self.sign)
-        self.sign_button.grid(column=0, row=7)
+        sign_button = ttk.Button(self, text="+/-", command=self.sign)
+        sign_button.grid(column=0, row=7)
 
-        self.dot_button = ttk.Button(self.window, text=".", command=lambda: self.insert_char('.'))
-        self.dot_button.grid(column=2, row=7)
+        dot_button = ttk.Button(self, text=".", command=lambda: self.insert_char('.'))
+        dot_button.grid(column=2, row=7)
 
-        self.zero_button = ttk.Button(self.window, text="0", command=lambda: self.insert_char('0'))
-        self.zero_button.grid(column=1, row=7)
-
-        self.one_button = ttk.Button(self.window, text="1", command=lambda: self.insert_char('1'))
-        self.one_button.grid(column=0, row=6)
-
-        self.two_button = ttk.Button(self.window, text="2", command=lambda: self.insert_char('2'))
-        self.two_button.grid(column=1, row=6)
-
-        self.three_button = ttk.Button(self.window, text="3", command=lambda: self.insert_char('3'))
-        self.three_button.grid(column=2, row=6)
-
-        self.four_button = ttk.Button(self.window, text="4", command=lambda: self.insert_char('4'))
-        self.four_button.grid(column=0, row=5)
-
-        self.five_button = ttk.Button(self.window, text="5", command=lambda: self.insert_char('5'))
-        self.five_button.grid(column=1, row=5)
-
-        self.six_button = ttk.Button(self.window, text="6", command=lambda: self.insert_char('6'))
-        self.six_button.grid(column=2, row=5)
-
-        self.seven_button = ttk.Button(self.window, text="7", command=lambda: self.insert_char('7'))
-        self.seven_button.grid(column=0, row=4)
-
-        self.eight_button = ttk.Button(self.window, text="8", command=lambda: self.insert_char('8'))
-        self.eight_button.grid(column=1, row=4)
-
-        self.nine_button = ttk.Button(self.window, text="9", command=lambda: self.insert_char('9'))
-        self.nine_button.grid(column=2, row=4)
+        buttons = [ttk.Button(self, text=str(i), command=lambda char=str(i): self.insert_char(char)) for i in range(0, 10)]
+        buttons[0].grid(column=1, row=7)
+        buttons[1].grid(column=0, row=6)
+        buttons[2].grid(column=1, row=6)
+        buttons[3].grid(column=2, row=6)
+        buttons[4].grid(column=0, row=5)
+        buttons[5].grid(column=1, row=5)
+        buttons[6].grid(column=2, row=5)
+        buttons[7].grid(column=0, row=4)
+        buttons[8].grid(column=1, row=4)
+        buttons[9].grid(column=2, row=4)
 
     def one_argument_function_count(self, function):
         """Count value given certain function.
@@ -220,4 +203,4 @@ class Calculator:
 
 if __name__ == "__main__":
     calc = Calculator()
-    calc.window.mainloop()
+    calc.mainloop()
